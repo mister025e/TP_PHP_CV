@@ -1,9 +1,13 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Curriculum Vitae</title>
     <link rel="stylesheet" href="output.css">
 </head>
@@ -24,7 +28,12 @@
         <a href="#" class="text-sm font-semibold leading-6 text-white z-50">WIP</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+        <?php if ($isLoggedIn): ?>
+            <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+        <?php else: ?>
+            <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+            <a href="register.php" class="text-sm font-semibold leading-6 text-white z-50 ml-4">Register</a>
+        <?php endif; ?>
       </div>
     </nav>
   </header>

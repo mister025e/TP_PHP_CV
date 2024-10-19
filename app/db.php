@@ -1,9 +1,9 @@
 <?php
 // Database connection using PDO
 $host = 'db';
-$db = 'new_cv_db';
+$db = 'cv_db';
 $user = 'root'; // Update this with your MySQL username
-$pass = 'password';     // Update this with your MySQL password
+$pass = 'root';     // Update this with your MySQL password
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -18,3 +18,14 @@ try {
 } catch (\PDOException $e) {
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
+
+function getUserByEmail($pdo, $email) {
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+    $stmt->execute(['email' => $email]);
+    return $stmt->fetch();
+}
+
+function verifyPassword($inputPassword, $storedHash) {
+    return password_verify($inputPassword, $storedHash);
+}
+?>
