@@ -31,8 +31,8 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <?php if ($isLoggedIn): ?>
             <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
         <?php else: ?>
-            <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>
-            <a href="register.php" class="text-sm font-semibold leading-6 text-white z-50 ml-4">Register</a>
+            <a href="register.php" class="text-sm font-semibold leading-6 text-white z-50 ml-4">Register&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>           
         <?php endif; ?>
       </div>
     </nav>
@@ -48,7 +48,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
       <div class="text-center">
         <h1 class="text-balance text-4xl font-bold tracking-tight text-white sm:text-6xl">Start making your first CV now</h1>
         <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
+          <a href="cv.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
         </div>
       </div>
     </div>
