@@ -24,7 +24,7 @@ A CV Maker website that allows users to create, save, and view CVs. Users can al
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/cv-maker.git
+   git clone https://github.com/mister025e/TP_PHP_CV.git
 
 2. Navigate to the project directory:
 
