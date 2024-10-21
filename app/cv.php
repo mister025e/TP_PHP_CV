@@ -28,7 +28,7 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
             <p style="color:green;">CV saved successfully!</p>
         <?php endif; ?>
 
-        <form action="save_cv.php" method="POST">
+        <form action="save_cv.php" method="POST" enctype="multipart/form-data">
             <!-- Personal Information Section -->
             <h2>Personal Information</h2>
             <label for="cv_name">CV Name:</label>
@@ -43,64 +43,53 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
             <label for="phone">Phone:</label>
             <input type="text" name="phone" id="phone" required>
 
-            <!-- Professional Summary Section -->
-            <h2>Professional Summary</h2>
-            <label for="summary">Summary:</label>
-            <textarea name="summary" id="summary" rows="4" required></textarea>
+            <!-- Profile Image Section -->
+            <h2>Profile Picture</h2>
+            <label for="profile_image">Upload Profile Picture:</label>
+            <input type="file" name="profile_image" id="profile_image" accept="image/*">
 
-            <!-- Work Experience Section -->
-            <h2>Work Experience</h2>
-            <label for="job_title">Job Title:</label>
-            <input type="text" name="job_title" id="job_title" required>
+            <!-- CV Summary -->
+            <h2>CV Title and Description</h2>
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required>
 
-            <label for="company">Company Name:</label>
-            <input type="text" name="company" id="company" required>
+            <label for="description">Professional Summary:</label>
+            <textarea name="description" id="description" rows="4" required></textarea>
 
-            <label for="job_start">Start Date:</label>
-            <input type="date" name="job_start" id="job_start" required>
-
-            <label for="job_end">End Date:</label>
-            <input type="date" name="job_end" id="job_end">
-
-            <label for="responsibilities">Key Responsibilities:</label>
-            <textarea name="responsibilities" id="responsibilities" rows="3"></textarea>
-
-            <!-- Education Section -->
-            <h2>Education</h2>
-            <label for="degree">Degree Title:</label>
-            <input type="text" name="degree" id="degree" required>
-
-            <label for="institution">Institution Name:</label>
-            <input type="text" name="institution" id="institution" required>
-
-            <label for="education_start">Start Date:</label>
-            <input type="date" name="education_start" id="education_start" required>
-
-            <label for="education_end">End Date:</label>
-            <input type="date" name="education_end" id="education_end">
-
-            <!-- Skills Section -->
+            <!-- Skills Section (up to 3) -->
             <h2>Skills</h2>
-            <label for="skills">Skills (up to 3):</label>
-            <input type="text" name="skills[]" id="skills_1" required>
-            <input type="text" name="skills[]" id="skills_2">
-            <input type="text" name="skills[]" id="skills_3">
+            <label for="skill_title">Skill 1 - Title:</label>
+            <input type="text" name="skills[0][title]" id="skill_title" required>
 
-            <!-- Projects Section -->
-            <h2>Projects</h2>
-            <label for="project_title">Project Title:</label>
-            <input type="text" name="project_title" id="project_title" required>
+            <label for="skill_desc">Skill 1 - Description:</label>
+            <textarea name="skills[0][description]" id="skill_desc" rows="2"></textarea>
 
-            <label for="project_desc">Short Description:</label>
-            <textarea name="project_desc" id="project_desc" rows="2" required></textarea>
+            <label for="years_of_experience">Skill 1 - Years of Experience:</label>
+            <input type="number" name="skills[0][years_of_experience]" id="years_of_experience" min="0" required>
 
-            <!-- Languages Section -->
-            <h2>Languages (optional)</h2>
-            <label for="language_1">Language 1:</label>
-            <input type="text" name="language_1" id="language_1">
+            <!-- Add more skills similarly if needed -->
 
-            <label for="language_2">Language 2:</label>
-            <input type="text" name="language_2" id="language_2">
+            <!-- External Work Experience -->
+            <h2>External Work Experience</h2>
+            <label for="experience_title">Experience 1 - Title:</label>
+            <input type="text" name="experiences[0][title]" id="experience_title" required>
+
+            <label for="experience_start">Experience 1 - Start Date:</label>
+            <input type="date" name="experiences[0][start_date]" id="experience_start" required>
+
+            <label for="experience_end">Experience 1 - End Date:</label>
+            <input type="date" name="experiences[0][end_date]" id="experience_end">
+
+            <!-- External Education -->
+            <h2>External Education</h2>
+            <label for="education_school">Education 1 - School Name:</label>
+            <input type="text" name="educations[0][school]" id="education_school" required>
+
+            <label for="education_start">Education 1 - Start Date:</labe>
+            <input type="date" name="educations[0][start_date]" id="education_start" required>
+
+            <label for="education_end">Education 1 - End Date:</label>
+            <input type="date" name="educations[0][end_date]" id="education_end">
 
             <!-- Submit and Save CV -->
             <input type="submit" value="Save CV">

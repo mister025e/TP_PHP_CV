@@ -24,7 +24,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
       <div class="hidden lg:flex lg:gap-x-12">
         <a href="profile.php" class="text-sm font-semibold leading-6 text-white z-50">PROFILE</a>
         <a href="cv.php" class="text-sm font-semibold leading-6 text-white z-50">MY CV</a>
-        <a href="project.php" class="text-sm font-semibold leading-6 text-white z-50">PROJECTS</a>
+        <a href="projects.php" class="text-sm font-semibold leading-6 text-white z-50">PROJECTS</a>
         <a href="#" class="text-sm font-semibold leading-6 text-white z-50">WIP</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">

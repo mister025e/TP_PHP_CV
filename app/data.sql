@@ -15,29 +15,33 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create table for saved CVs
+-- Create the reorganized cvs table
 CREATE TABLE IF NOT EXISTS cvs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    cv_name VARCHAR(100) NOT NULL,
+    user_id INT NOT NULL,
+    cv_name VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
     email VARCHAR(255),
     phone VARCHAR(50),
-    summary TEXT,
-    job_title VARCHAR(255),
-    company VARCHAR(255),
-    job_start DATE,
-    job_end DATE,
-    responsibilities TEXT,
-    degree VARCHAR(255),
-    institution VARCHAR(255),
-    education_start DATE,
-    education_end DATE,
-    skills TEXT,
-    project_title VARCHAR(255),
-    project_desc TEXT,
-    language_1 VARCHAR(100),
-    language_2 VARCHAR(100),
+    title VARCHAR(255),            -- CV Title
+    description TEXT,              -- Professional Summary
+    skills JSON,                   -- JSON object for skills
+    experiences JSON,              -- JSON object for external experiences
+    educations JSON,               -- JSON object for external educations
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Add the column profile_image in cvs table
+ALTER TABLE cvs ADD COLUMN profile_image VARCHAR(255) DEFAULT NULL;
+
+-- Create table projects
+CREATE TABLE IF NOT EXISTS projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
