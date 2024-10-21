@@ -27,6 +27,8 @@ A CV Maker website that allows users to create, save, and view CVs. Users can al
    git clone https://github.com/yourusername/cv-maker.git
 
 2. Navigate to the project directory:
+
+    ```bash
     cd cv-maker
 
 3. Set up the database:
@@ -34,16 +36,22 @@ A CV Maker website that allows users to create, save, and view CVs. Users can al
     - Update the db.php file with your database credentials.
 
 4. Install and set up Tailwind:
-    - npm install -D tailwindcss
-    - npx tailwindcss init
-    - node tailwind.config.js (if not created automatically)
-    - For more informations about how set up Tailwind, click on this link https://tailwindcss.com/docs/installation
+
+    ```bash
+    npm install -D tailwindcss
+    npx tailwindcss init
+    node tailwind.config.js (if not created automatically)
+    For more informations about how set up Tailwind, click on this link https://tailwindcss.com/docs/installation
 
 5. Install node modules (if not installed automatically):
-    - npm init -y
-    - npm install
+
+    ```bash
+    npm init -y
+    npm install
 
 6. Start the web server:
+
+    ```bash
     docker-compose up
 
 7. Access the website at http://127.0.0.1:
