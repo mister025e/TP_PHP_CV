@@ -1,7 +1,8 @@
 <?php
-session_start();
-require 'db.php';
+session_start(); // Start the session to access user data
+require 'db.php'; // Include the database connection file
 
+// Redirect to the login page if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
@@ -18,14 +19,14 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Create Your CV</title>
-    <link rel="stylesheet" href="output.css"> <!-- Make sure the link to the stylesheet is correct -->
+    <link rel="stylesheet" href="output.css"> <!-- Link to Tailwind CSS stylesheet -->
 </head>
 <body>
 <div class="bg-blue-950">
   <header class="absolute bg-gray-800 text-white text-sm inset-x-0">
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
-        <a href="#" class="-m-1.5 p-1.5">
+        <a href="index.php" class="-m-1.5 p-1.5 z-50">
           <span class="sr-only">Your Company</span>
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
@@ -40,11 +41,11 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
       <h1 class="text-center text-4xl font-bold tracking-tight text-white">Create Your CV</h1>
       
-      <?php if ($success): ?>
+      <?php if ($success): ?> <!-- Display success message if available -->
           <p style="color:green;" class="text-center">CV saved successfully!</p>
       <?php endif; ?>
 
-      <form action="save_cv.php" method="POST" enctype="multipart/form-data">
+      <form action="save_cv.php" method="POST" enctype="multipart/form-data"> <!-- Form to input CV details -->
           <h2 class="text-xl text-white mt-6">Personal Information</h2>
           <label for="cv_name" class="text-white">CV Name:</label>
           <input type="text" name="cv_name" id="cv_name" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
@@ -99,11 +100,11 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
           <label for="education_end" class="text-white">Education 1 - End Date:</label>
           <input type="date" name="educations[0][end_date]" id="education_end" class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <input type="submit" value="Save CV" class="mt-4 bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+          <input type="submit" value="Save CV" class="mt-4 bg-indigo-600 text-white font-bold py-2 px-4 rounded"> <!-- Submit button for saving CV -->
       </form>
 
       <form action="cv_list.php" method="get" class="mt-4">
-          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded"> <!-- Button to view saved CVs -->
       </form>
     </div>
   </div>
