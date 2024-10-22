@@ -10,6 +10,22 @@ if (!isset($_SESSION['user_id'])) {
 
 // Check if there's a success message after saving a CV
 $success = isset($_GET['success']) ? $_GET['success'] : null;
+
+$isLoggedIn = isset($_SESSION['user_id']);
+
+$firstName = '';
+$lastName = '';
+
+if ($isLoggedIn) {
+    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
+    $stmt->execute(['id' => $_SESSION['user_id']]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $firstName = htmlspecialchars($user['first_name']);
+        $lastName = htmlspecialchars($user['last_name']);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,12 +41,23 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
 <div class="bg-blue-950">
   <header class="absolute bg-gray-800 text-white text-sm inset-x-0">
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+      
       <div class="flex lg:flex-1">
         <a href="index.php" class="-m-1.5 p-1.5 z-50">
           <span class="sr-only">Your Company</span>
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
       </div>
+
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <?php if ($isLoggedIn): ?>
+            <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
+                <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+        <?php endif; ?>
+      </div>
+
     </nav>
   </header>
 

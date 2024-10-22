@@ -25,6 +25,22 @@ if (!$cv) {
 $skills = json_decode($cv['skills'], true);
 $experiences = json_decode($cv['experiences'], true);
 $educations = json_decode($cv['educations'], true);
+
+$isLoggedIn = isset($_SESSION['user_id']);
+
+$firstName = '';
+$lastName = '';
+
+if ($isLoggedIn) {
+    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
+    $stmt->execute(['id' => $_SESSION['user_id']]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $firstName = htmlspecialchars($user['first_name']);
+        $lastName = htmlspecialchars($user['last_name']);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +61,16 @@ $educations = json_decode($cv['educations'], true);
                         <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="Logo">
                     </a>
                 </div>
+
+                <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                    <?php if ($isLoggedIn): ?>
+                        <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
+                            <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                        <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+                    <?php endif; ?>
+                </div>
+
             </nav>
         </header>
 

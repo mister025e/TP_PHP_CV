@@ -1,9 +1,27 @@
 <?php
 // Start a new session or resume the existing session
 session_start();
+require 'db.php'; // Assuming you have a db.php file for database connection
 
 // Check if the user is logged in by checking if 'user_id' exists in the session
 $isLoggedIn = isset($_SESSION['user_id']);
+
+// Initialize user name variables
+$firstName = '';
+$lastName = '';
+
+// If the user is logged in, fetch their first name and last name
+if ($isLoggedIn) {
+    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
+    $stmt->execute(['id' => $_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    
+    // Store the user's first name and last name
+    if ($user) {
+        $firstName = htmlspecialchars($user['first_name']);
+        $lastName = htmlspecialchars($user['last_name']);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +55,13 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <a href="#" class="text-sm font-semibold leading-6 text-white z-50">WIP</a> <!-- Placeholder link -->
       </div>
 
-      <!-- Login/Logout buttons based on login status -->
+      <!-- Login/Logout buttons and user name based on login status -->
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <?php if ($isLoggedIn): ?>
-            <!-- If the user is logged in, show the logout button -->
+            <!-- If the user is logged in, display their name and the logout button -->
+            <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
+                <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
             <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
         <?php else: ?>
             <!-- If the user is not logged in, show the register and login buttons -->

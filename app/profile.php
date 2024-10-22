@@ -1,5 +1,6 @@
 <?php
-session_start();
+session_start(); // Start the session to access user data
+require 'db.php'; // Include the database connection file
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -16,6 +17,22 @@ $profileDescription = "This is the profile of " . $_SESSION['first_name'];
 if (empty($_SESSION['first_name']) && empty($_SESSION['last_name'])) {
     $name = "John Doe";
     $profileDescription = "No description available.";
+}
+
+$isLoggedIn = isset($_SESSION['user_id']);
+
+$firstName = '';
+$lastName = '';
+
+if ($isLoggedIn) {
+    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
+    $stmt->execute(['id' => $_SESSION['user_id']]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $firstName = htmlspecialchars($user['first_name']);
+        $lastName = htmlspecialchars($user['last_name']);
+    }
 }
 ?>
 
@@ -37,6 +54,16 @@ if (empty($_SESSION['first_name']) && empty($_SESSION['last_name'])) {
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
       </div>
+
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <?php if ($isLoggedIn): ?>
+            <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
+                <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+        <?php endif; ?>
+      </div>
+
     </nav>
   </header>
 
