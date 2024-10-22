@@ -963,20 +963,8 @@ video {
     left: calc(50% - 30rem);
   }
 
-  .sm\:mb-8 {
-    margin-bottom: 2rem;
-  }
-
-  .sm\:flex {
-    display: flex;
-  }
-
   .sm\:w-\[72\.1875rem\] {
     width: 72.1875rem;
-  }
-
-  .sm\:justify-center {
-    justify-content: center;
   }
 
   .sm\:py-48 {
