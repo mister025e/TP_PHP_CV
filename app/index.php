@@ -1,7 +1,6 @@
 <?php
-// Start a new session or resume the existing session
-session_start();
-require 'db.php'; // Assuming you have a db.php file for database connection
+session_start(); // Start the session to access session variables
+require 'db.php'; // Include the database connection file
 
 // Check if the user is logged in by checking if 'user_id' exists in the session
 $isLoggedIn = isset($_SESSION['user_id']);
