@@ -7,14 +7,11 @@ A CV Maker website that allows users to create, save, and view CVs. Users can al
 - User registration and login
 - Create, view, and save CVs
 - Add and view projects
-- Upload project images
-- Responsive design using Tailwind CSS
 
 ## Technologies Used
 
 - PHP
-- MySQL/MariaDB
-- SQLite
+- SQL
 - Docker
 - NGINX
 - TailwindCSS

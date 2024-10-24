@@ -98,33 +98,33 @@ if ($isLoggedIn) {
           <textarea name="description" id="description" rows="4" required class="mt-1 block w-full rounded-md border border-gray-300 p-2"></textarea>
 
           <h2 class="text-xl text-white mt-6">Skills</h2>
-          <label for="skill_title" class="text-white">Skill 1 - Title:</label>
+          <label for="skill_title" class="text-white">Skill - Title:</label>
           <input type="text" name="skills[0][title]" id="skill_title" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <label for="skill_desc" class="text-white">Skill 1 - Description:</label>
+          <label for="skill_desc" class="text-white">Skill - Description:</label>
           <textarea name="skills[0][description]" id="skill_desc" rows="2" class="mt-1 block w-full rounded-md border border-gray-300 p-2"></textarea>
 
-          <label for="years_of_experience" class="text-white">Skill 1 - Years of Experience:</label>
+          <label for="years_of_experience" class="text-white">Skill - Years of Experience:</label>
           <input type="number" name="skills[0][years_of_experience]" id="years_of_experience" min="0" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
           <h2 class="text-xl text-white mt-6">External Work Experience</h2>
-          <label for="experience_title" class="text-white">Experience 1 - Title:</label>
+          <label for="experience_title" class="text-white">Experience - Title:</label>
           <input type="text" name="experiences[0][title]" id="experience_title" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <label for="experience_start" class="text-white">Experience 1 - Start Date:</label>
+          <label for="experience_start" class="text-white">Experience - Start Date:</label>
           <input type="date" name="experiences[0][start_date]" id="experience_start" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <label for="experience_end" class="text-white">Experience 1 - End Date:</label>
+          <label for="experience_end" class="text-white">Experience - End Date:</label>
           <input type="date" name="experiences[0][end_date]" id="experience_end" class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
           <h2 class="text-xl text-white mt-6">External Education</h2>
-          <label for="education_school" class="text-white">Education 1 - School Name:</label>
+          <label for="education_school" class="text-white">Education - School Name:</label>
           <input type="text" name="educations[0][school]" id="education_school" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <label for="education_start" class="text-white">Education 1 - Start Date:</label>
+          <label for="education_start" class="text-white">Education - Start Date:</label>
           <input type="date" name="educations[0][start_date]" id="education_start" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
-          <label for="education_end" class="text-white">Education 1 - End Date:</label>
+          <label for="education_end" class="text-white">Education - End Date:</label>
           <input type="date" name="educations[0][end_date]" id="education_end" class="mt-1 block w-full rounded-md border border-gray-300 p-2">
 
           <input type="submit" value="Save CV" class="mt-4 bg-indigo-600 text-white font-bold py-2 px-4 rounded"> <!-- Submit button for saving CV -->
