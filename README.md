@@ -1,6 +1,6 @@
-# CV Maker Website
+# CV Maker/Portfolio Website
 
-A CV Maker website that allows users to create, save, and view CVs. Users can also add projects and view them in a list format. The website features user authentication and utilizes a database to store user and project data.
+A CV Maker/Portfolio website that allows users to create, save, and view CVs. Users can also add projects and view them in a list format. The website features user authentication and utilizes a database to store user and project data.
 
 ## Features
 
