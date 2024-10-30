@@ -6,7 +6,7 @@
 
 -- Create table users
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     email VARCHAR(255) NOT NULL UNIQUE,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Create the cvs table
 CREATE TABLE IF NOT EXISTS cvs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
     cv_name VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
     email VARCHAR(255),
@@ -37,8 +37,8 @@ ALTER TABLE cvs ADD COLUMN profile_image VARCHAR(255) DEFAULT NULL;
 
 -- Create table projects
 CREATE TABLE IF NOT EXISTS projects (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     image VARCHAR(255) DEFAULT NULL,
