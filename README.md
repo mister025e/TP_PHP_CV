@@ -46,12 +46,14 @@ A CV Maker/Portfolio website that allows users to create, save, and view CVs. Us
     npm init -y
     npm install
 
-6. Start the web server:
+6. Create a directory called **uploads** in your app **directory**
+
+7. Start the web server:
 
     ```bash
     docker-compose up
 
-7. Access the website at http://127.0.0.1:
+8. Access the website at http://127.0.0.1:
 
 ## Usage
 
