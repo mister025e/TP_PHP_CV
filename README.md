@@ -55,6 +55,12 @@ A CV Maker/Portfolio website that allows users to create, save, and view CVs. Us
 
 8. Access the website at http://127.0.0.1:
 
+9. To manipulate database access to Adminer with http://127.0.0.1:8080 and authenticate :
+    - Server : db
+    - User : root
+    - Password : root
+    - Database : cv_db
+
 ## Usage
 
 - Registration: New users can register by clicking on the "Register" button on the home page.
