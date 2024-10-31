@@ -15,6 +15,11 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Add the column bio and phone in users table
+ALTER TABLE users
+ADD COLUMN bio TEXT,
+ADD COLUMN phone VARCHAR(20);
+
 -- Create the cvs table
 CREATE TABLE cvs (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),

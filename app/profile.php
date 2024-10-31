@@ -1,39 +1,58 @@
 <?php
-session_start(); // Start the session to access user data
-require 'db.php'; // Include the database connection file
+session_start();
+require 'db.php';
 
-// Check if user is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Prepare user information
-$name = $_SESSION['first_name'] . " " . $_SESSION['last_name'];
-$email = $_SESSION['email'];
-$profileDescription = "This is the profile of " . $_SESSION['first_name'];
+// Fetch user details from the database
+$stmt = $pdo->prepare('SELECT first_name, last_name, email, rank, bio, phone FROM users WHERE id = :id');
+$stmt->execute(['id' => $_SESSION['user_id']]);
+$user = $stmt->fetch();
 
-// Set default values if no first or last name is provided
-if (empty($_SESSION['first_name']) && empty($_SESSION['last_name'])) {
-    $name = "John Doe";
-    $profileDescription = "No description available.";
+if ($user) {
+    $firstName = htmlspecialchars($user['first_name']);
+    $lastName = htmlspecialchars($user['last_name']);
+    $email = htmlspecialchars($user['email']);
+    $rank = htmlspecialchars($user['rank']);
+    $bio = htmlspecialchars($user['bio'] ?? ''); // Default to empty string if bio is null
+    $phone = htmlspecialchars($user['phone'] ?? ''); // Default to empty string if phone is null
+}
+
+// Update user details if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $updatedFirstName = $_POST['first_name'];
+    $updatedLastName = $_POST['last_name'];
+    $updatedEmail = $_POST['email'];
+    $updatedBio = $_POST['bio'];
+    $updatedPhone = $_POST['phone'];
+
+    $stmt = $pdo->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, bio = :bio, phone = :phone WHERE id = :id');
+    $stmt->execute([
+        'first_name' => $updatedFirstName,
+        'last_name' => $updatedLastName,
+        'email' => $updatedEmail,
+        'bio' => $updatedBio,
+        'phone' => $updatedPhone,
+        'id' => $_SESSION['user_id']
+    ]);
+
+    // Update session variables
+    $firstName = htmlspecialchars($updatedFirstName);
+    $lastName = htmlspecialchars($updatedLastName);
+    $email = htmlspecialchars($updatedEmail);
+    $bio = htmlspecialchars($updatedBio);
+    $phone = htmlspecialchars($updatedPhone);
+
+    // Redirect to refresh the page and clear POST data
+    header("Location: profile.php");
+    exit;
 }
 
 $isLoggedIn = isset($_SESSION['user_id']);
-
-$firstName = '';
-$lastName = '';
-
-if ($isLoggedIn) {
-    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
-    $stmt->execute(['id' => $_SESSION['user_id']]);
-    $user = $stmt->fetch();
-
-    if ($user) {
-        $firstName = htmlspecialchars($user['first_name']);
-        $lastName = htmlspecialchars($user['last_name']);
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +60,8 @@ if ($isLoggedIn) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($name); ?>'s Profile</title> <!-- Use htmlspecialchars to prevent XSS -->
-    <link rel="stylesheet" href="output.css"> <!-- Ensure correct path -->
+    <title><?php echo $firstName . ' ' . $lastName; ?>'s Profile</title>
+    <link rel="stylesheet" href="output.css">
 </head>
 <body>
 <div class="bg-blue-950">
@@ -54,7 +73,6 @@ if ($isLoggedIn) {
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
       </div>
-
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <?php if ($isLoggedIn): ?>
             <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
@@ -63,7 +81,6 @@ if ($isLoggedIn) {
             <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
         <?php endif; ?>
       </div>
-
     </nav>
   </header>
 
@@ -73,14 +90,41 @@ if ($isLoggedIn) {
     </div>
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
       <header class="text-left">
-          <h1 class="text-4xl font-bold tracking-tight text-white"><?php echo htmlspecialchars($name); ?></h1>
-          <p class="text-white">Email: <?php echo htmlspecialchars($email); ?></p>
+        <h1 class="text-4xl font-bold tracking-tight text-white"><?php echo $firstName . ' ' . $lastName; ?></h1>
+        <p class="text-white">Email: <?php echo $email; ?></p>
+        <p class="text-white">Rank: <?php echo $rank; ?></p>
       </header>
 
-      <section class="profile mt-8">
-          <h2 class="text-xl text-white mt-6">Profile</h2>
-          <p class="text-white"><?php echo htmlspecialchars($profileDescription); ?></p>
-      </section>
+      <form method="POST" class="bg-white rounded-lg shadow-md p-8 mt-6">
+        <h2 class="text-2xl font-bold tracking-tight text-white">Edit Profile</h2>
+        
+        <label class="block mb-4">
+          <span class="text-white">First Name</span>
+          <input type="text" name="first_name" value="<?php echo $firstName; ?>" class="mt-1 block w-full border-gray-300 rounded-md">
+        </label>
+
+        <label class="block mb-4">
+          <span class="text-white">Last Name</span>
+          <input type="text" name="last_name" value="<?php echo $lastName; ?>" class="mt-1 block w-full border-gray-300 rounded-md">
+        </label>
+
+        <label class="block mb-4">
+          <span class="text-white">Email</span>
+          <input type="email" name="email" value="<?php echo $email; ?>" class="mt-1 block w-full border-gray-300 rounded-md">
+        </label>
+
+        <label class="block mb-4">
+          <span class="text-white">Bio</span>
+          <textarea name="bio" class="mt-1 block w-full border-gray-300 rounded-md"><?php echo $bio; ?></textarea>
+        </label>
+
+        <label class="block mb-4">
+          <span class="text-white">Phone</span>
+          <input type="text" name="phone" value="<?php echo $phone; ?>" class="mt-1 block w-full border-gray-300 rounded-md">
+        </label>
+
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md mt-4">Save Changes</button>
+      </form>
     </div>
   </div>
 

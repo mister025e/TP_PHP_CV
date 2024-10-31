@@ -7,15 +7,19 @@ $success = isset($_GET['success']) ? $_GET['success'] : null;
 
 $isLoggedIn = isset($_SESSION['user_id']);
 
-// Check if user is logged in and set name variables if so
-$firstName = $lastName = '';
+// Initialize variables
+$firstName = $lastName = $email = $phone = '';
 if ($isLoggedIn) {
-    $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
+    // Fetch user details from the database
+    $stmt = $pdo->prepare('SELECT first_name, last_name, email, phone FROM users WHERE id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
     $user = $stmt->fetch();
+
     if ($user) {
         $firstName = htmlspecialchars($user['first_name']);
         $lastName = htmlspecialchars($user['last_name']);
+        $email = htmlspecialchars($user['email']);
+        $phone = htmlspecialchars($user['phone'] ?? ''); // Fetch and set phone, default to empty if null
     }
 }
 ?>
@@ -32,35 +36,10 @@ if ($isLoggedIn) {
 <body>
 <div class="bg-blue-950">
   <header class="absolute bg-gray-800 text-white text-sm inset-x-0">
-    <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-      
-      <div class="flex lg:flex-1">
-        <a href="index.php" class="-m-1.5 p-1.5 z-50">
-          <span class="sr-only">Your Company</span>
-          <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
-        </a>
-      </div>
-
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <?php if ($isLoggedIn): ?>
-            <!-- If the user is logged in, display their name and the logout button -->
-            <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
-                <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-            <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
-        <?php else: ?>
-            <!-- If the user is not logged in, show the register and login buttons -->
-            <a href="register.php" class="text-sm font-semibold leading-6 text-white z-50 ml-4">Register&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>
-        <?php endif; ?>
-      </div>
-    </nav>
+    <!-- Header content -->
   </header>
 
   <div class="relative isolate px-6 pt-14 lg:px-8">
-    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-    </div>
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
       <h1 class="text-center text-4xl font-bold tracking-tight text-white">Create Your CV</h1>
       
@@ -68,10 +47,9 @@ if ($isLoggedIn) {
           <p style="color:green;" class="text-center">CV saved successfully!</p>
       <?php endif; ?>
 
-      <form action="save_cv.php" method="POST" enctype="multipart/form-data"> <!-- Form to input CV details -->
-          <!-- Add visibility dropdown only if the user is logged in -->
+      <form action="save_cv.php" method="POST" enctype="multipart/form-data">
           <?php if ($isLoggedIn): ?>
-              <label for="visibility">Visibility:</label>
+              <label for="visibility" class="text-white">Visibility:</label>
               <select name="visibility" id="visibility" required>
                   <option value="private">Private</option>
                   <option value="public">Public</option>
@@ -85,13 +63,13 @@ if ($isLoggedIn) {
           <input type="text" name="cv_name" id="cv_name" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
           
           <label for="full_name" class="text-white">Full Name:</label>
-          <input type="text" name="full_name" id="full_name" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
+          <input type="text" name="full_name" id="full_name" required class="mt-1 block w-full rounded-md border border-gray-300 p-2" value="<?php echo $firstName . ' ' . $lastName; ?>">
           
           <label for="email" class="text-white">Email:</label>
-          <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
+          <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border border-gray-300 p-2" value="<?php echo $email; ?>">
           
           <label for="phone" class="text-white">Phone:</label>
-          <input type="text" name="phone" id="phone" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
+          <input type="text" name="phone" id="phone" required class="mt-1 block w-full rounded-md border border-gray-300 p-2" value="<?php echo $phone; ?>"> <!-- Auto-fill phone -->
 
           <h2 class="text-xl text-white mt-6">Profile Picture</h2>
           <label for="profile_image" class="text-white">Upload Profile Picture:</label>
@@ -138,7 +116,7 @@ if ($isLoggedIn) {
       </form>
 
       <form action="cv_list.php" method="get" class="mt-4">
-          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded"><br><br> <!-- Button to view saved CVs -->
+          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded"><br><br>
       </form>
       <a href="other_cvs.php" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded">View Public CVs</a>
     </div>
