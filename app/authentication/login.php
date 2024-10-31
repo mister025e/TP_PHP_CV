@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../db/db.php';
 
 $error = ''; // Initialize error variable
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['last_name'] = $user['last_name'];
         $_SESSION['rank'] = $user['rank'];
         
-        header("Location: profile.php");
+        header("Location: ../general/profile.php");
         exit;
     } else {
         $error = "Invalid email or password."; // Set error message for login failure
@@ -34,14 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="../styles/output.css">
 </head>
 <body>
 <div class="bg-blue-950">
   <header class="absolute bg-gray-800 text-white text-sm inset-x-0">
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
-        <a href="index.php" class="-m-1.5 p-1.5 z-50">
+        <a href="../general/menu.php" class="-m-1.5 p-1.5 z-50">
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
       </div>
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p style="color: red;" class="text-center"><?php echo htmlspecialchars($error); ?></p> <!-- Prevent XSS -->
       <?php endif; ?>
 
-      <form method="POST" action="login.php" class="mt-8">
+      <form method="POST" action="../authentication/login.php" class="mt-8">
         <div class="mb-4">
           <label for="email" class="block text-white">Email:</label>
           <input type="email" name="email" required class="w-full px-4 py-2 text-black">

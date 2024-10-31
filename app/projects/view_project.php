@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session to access session variables
-require 'db.php'; // Include the database connection file
+require '../db/db.php'; // Include the database connection file
 
 $projectId = $_GET['id'] ?? null; // Get the project ID from the URL or set it to null if not present
 
@@ -33,24 +33,28 @@ if ($isLoggedIn) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Project</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="../styles/output.css">
 </head>
 <body>
 <div class="bg-blue-950">
   <header class="absolute bg-gray-800 text-white text-sm inset-x-0">
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
-        <a href="index.php" class="-m-1.5 p-1.5 z-50">
+        <a href="../general/menu.php" class="-m-1.5 p-1.5 z-50">
           <img class="h-8 w-auto" src="https://static.vitrine.ynov.com/build/images/formation/logo-y-informatique--desktop.png" alt="">
         </a>
       </div>
-
+      <div class="hidden lg:flex lg:gap-x-12">
+        <a href="../general/profile.php" class="text-sm font-semibold leading-6 text-white z-50">PROFILE</a>
+        <a href="../cvs/cv.php" class="text-sm font-semibold leading-6 text-white z-50">MY CV</a>
+        <a href="../projects/projects.php" class="text-sm font-semibold leading-6 text-white z-50">PROJECTS</a>
+      </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <?php if ($isLoggedIn): ?>
             <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
                 <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+            <a href="../authentication/logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
         <?php endif; ?>
       </div>
 

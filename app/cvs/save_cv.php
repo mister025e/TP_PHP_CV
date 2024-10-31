@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; // Make sure to include your database connection file
+require '../db/db.php'; // Make sure to include your database connection file
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileType = $_FILES['profile_image']['type'];
 
         // Specify the upload directory (make sure this exists and is writable)
-        $uploadFileDir = './uploads/';
+        $uploadFileDir = '../uploads/';
         $dest_path = $uploadFileDir . $fileName;
 
         // Move the file to the specified directory
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         // Redirect to a success page or the CV listing page
-        header('Location: cv_list.php?status=success');
+        header('Location: ../cvs/cv_list.php?status=success');
         exit;
     } catch (PDOException $e) {
         echo 'Database error: ' . $e->getMessage();
