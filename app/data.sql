@@ -16,24 +16,25 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Create the cvs table
-CREATE TABLE IF NOT EXISTS cvs (
+CREATE TABLE cvs (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    user_id CHAR(36) NOT NULL,
-    cv_name VARCHAR(255) NOT NULL,
+    user_id CHAR(36) NULL,  -- Update this to match the type of 'id' in users table
+    cv_name VARCHAR(255),
     full_name VARCHAR(255),
     email VARCHAR(255),
-    phone VARCHAR(50),
-    title VARCHAR(255),            -- CV Title
-    description TEXT,              -- Professional Summary
-    skills JSON,                   -- JSON object for skills
-    experiences JSON,              -- JSON object for external experiences
-    educations JSON,               -- JSON object for external educations
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    phone VARCHAR(20),
+    title VARCHAR(255),
+    description TEXT,
+    skills JSON,
+    experiences JSON,
+    educations JSON,
+    profile_image VARCHAR(255),
+    public BOOLEAN DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Add the column profile_image in cvs table
-ALTER TABLE cvs ADD COLUMN profile_image VARCHAR(255) DEFAULT NULL;
+-- Add the column visibility in cvs table
+ALTER TABLE cvs ADD COLUMN visibility ENUM('private', 'public') DEFAULT 'private';
 
 -- Create table projects
 CREATE TABLE IF NOT EXISTS projects (

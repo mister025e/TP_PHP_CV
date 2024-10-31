@@ -2,25 +2,17 @@
 session_start(); // Start the session to access user data
 require 'db.php'; // Include the database connection file
 
-// Redirect to the login page if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Check if there's a success message after saving a CV
 $success = isset($_GET['success']) ? $_GET['success'] : null;
 
 $isLoggedIn = isset($_SESSION['user_id']);
 
-$firstName = '';
-$lastName = '';
-
+// Check if user is logged in and set name variables if so
+$firstName = $lastName = '';
 if ($isLoggedIn) {
     $stmt = $pdo->prepare('SELECT first_name, last_name FROM users WHERE id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
     $user = $stmt->fetch();
-
     if ($user) {
         $firstName = htmlspecialchars($user['first_name']);
         $lastName = htmlspecialchars($user['last_name']);
@@ -51,13 +43,17 @@ if ($isLoggedIn) {
 
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <?php if ($isLoggedIn): ?>
+            <!-- If the user is logged in, display their name and the logout button -->
             <span class="text-sm font-semibold leading-6 text-white z-50 mr-4">
                 <?php echo $firstName . ' ' . $lastName; ?>&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <a href="logout.php" class="text-sm font-semibold leading-6 text-white z-50">Log out</a>
+        <?php else: ?>
+            <!-- If the user is not logged in, show the register and login buttons -->
+            <a href="register.php" class="text-sm font-semibold leading-6 text-white z-50 ml-4">Register&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a href="login.php" class="text-sm font-semibold leading-6 text-white z-50">Log in <span aria-hidden="true">&rarr;</span></a>
         <?php endif; ?>
       </div>
-
     </nav>
   </header>
 
@@ -73,6 +69,17 @@ if ($isLoggedIn) {
       <?php endif; ?>
 
       <form action="save_cv.php" method="POST" enctype="multipart/form-data"> <!-- Form to input CV details -->
+          <!-- Add visibility dropdown only if the user is logged in -->
+          <?php if ($isLoggedIn): ?>
+              <label for="visibility">Visibility:</label>
+              <select name="visibility" id="visibility" required>
+                  <option value="private">Private</option>
+                  <option value="public">Public</option>
+              </select>
+          <?php else: ?>
+              <input type="hidden" name="visibility" value="private">
+          <?php endif; ?>
+          
           <h2 class="text-xl text-white mt-6">Personal Information</h2>
           <label for="cv_name" class="text-white">CV Name:</label>
           <input type="text" name="cv_name" id="cv_name" required class="mt-1 block w-full rounded-md border border-gray-300 p-2">
@@ -131,8 +138,9 @@ if ($isLoggedIn) {
       </form>
 
       <form action="cv_list.php" method="get" class="mt-4">
-          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded"> <!-- Button to view saved CVs -->
+          <input type="submit" value="View Saved CVs" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded"><br><br> <!-- Button to view saved CVs -->
       </form>
+      <a href="other_cvs.php" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded">View Public CVs</a>
     </div>
   </div>
 
